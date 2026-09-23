@@ -74,24 +74,24 @@ None rejected; all required checks pass on all three. Everything, including the 
 
 **Run history**
 
-1. My first full attempt hit a Windows `UnicodeEncodeError` while passing issue text to Claude. It graded 13 issues, with 10 agreements, but seven errors meant the harness did not write `eval-run.txt`.
-2. I set `PYTHONUTF8=1` and ran the full eval again. It completed at **16/20**. The disagreements were `issue-01`, `issue-04`, `issue-09`, and `issue-19`.
-3. I revised **Bounded contribution** to allow related steps under one goal and **Available work** to release claims with no work for over 90 days. A partial `--only issue-01,issue-04,issue-09,issue-19` run matched **4/4**.
-4. I ran the full eval with `--save-run eval-run.txt`. It matched **19/20**, passed the **18/20** bar, and matched at least one verdict in every category. The remaining disagreement was `issue-19`.
+1. My first full run had a Windows `UnicodeEncodeError`. It graded 13 issues and agreed on 10, but seven issues errored, so the harness did not save a run.
+2. I set `PYTHONUTF8=1` and tried the full run again. This time it finished at **16/20**. It disagreed on `issue-01`, `issue-04`, `issue-09`, and `issue-19`.
+3. I updated the Bounded contribution and Available work checks. Then I used `--only issue-01,issue-04,issue-09,issue-19` to check those four issues. That partial run agreed on **4/4**.
+4. I ran the full eval again with `--save-run eval-run.txt`. The saved run agreed on **19/20**, passed the 18/20 bar, and matched at least one issue in every category. `issue-19` was the one disagreement.
 
 **Issue analysis**
 
-For scored `issue-19`, my rubric decided **reject**, while the gold label was **accept**. Its body says, “Selecting large subgraphs in proof mode freezes the UI,” and lists slow matchers and the UI waiting for a matching thread as potential causes. My **Bounded contribution** check requires one defined goal with an observable result, so fixing that freeze can fit it. The rubric still read the multiple performance and threading suggestions as a larger change and failed that required check. I think the gold label treats those suggestions as possible approaches to the single freeze rather than separate requirements.
+For `issue-19`, my rubric said **reject**, but the gold label said **accept**. The issue says, “Selecting large subgraphs in proof mode freezes the UI.” It lists slow matchers and the UI waiting for a matching thread as possible causes. My Bounded contribution check treated the different performance suggestions as too much work for a first issue. I can see why the gold label accepted it: all the suggestions are about fixing the same freeze.
 
 **Check rationale**
 
-My current **Bounded contribution** check says: “Pass if the issue has one defined goal and names an observable result, affected feature, or files. Related steps across several files, several examples of the same missing behavior, and multiple proposed causes of one bug still pass. Fail for a usage question, an open-ended tracking or umbrella issue without a specific deliverable, an unresolved product or design choice that blocks implementation, a maintainer-stated core redesign, or two or more abandoned unmerged attempts with no later settled plan.”
+My current Bounded contribution check says: “Pass if the issue has one defined goal and names an observable result, affected feature, or files. Related steps across several files, several examples of the same missing behavior, and multiple proposed causes of one bug still pass. Fail for a usage question, an open-ended tracking or umbrella issue without a specific deliverable, an unresolved product or design choice that blocks implementation, a maintainer-stated core redesign, or two or more abandoned unmerged attempts with no later settled plan.”
 
-I changed it after the 16/20 run because a documentation update spanning several pages (`issue-01`) and several missing previews of the same feature (`issue-04`) were finite work. Counting files or examples alone made the check reject them. The updated check asks whether there is one defined goal and a result I could verify.
+I changed this check after my 16/20 run. It had rejected `issue-01` because the documentation work touched several pages and `issue-04` because it listed several missing previews. Those issues still had clear goals. I wanted the check to look at the result of the work, not just how many files or examples the issue mentions.
 
 **Trade-offs**
 
-This broader wording accepted `issue-01` and `issue-04` in the partial recheck, but `issue-19` still failed in the final full run. A report with several possible performance fixes can be read as one bug or as too much for a first contribution. I kept the check because it still rejects open-ended work while the final eval reaches 19/20.
+The change helped my rubric accept `issue-01` and `issue-04`. It still rejected `issue-19` in the final run. An issue with several possible fixes can be hard to judge: it might be one bug, but it might take more work than I expect. I kept this wording because the full run reached 19/20 and the check still filters out issues with no clear result.
 
 ---
 
@@ -99,9 +99,9 @@ This broader wording accepted `issue-01` and `issue-04` in the partial recheck, 
 
 **Selection rationale**
 
-1. I chose #53 because I am interested in cybersecurity and have used Python for basic scripting. Redacting a phone number is a privacy problem I can understand. The issue names one code area and four failing tests, which feels manageable for my available time.
-2. My skill correctly found recent activity, no assignee or open PR, and a clear way to reproduce the bug. It ranked #53 first. I also considered that I would enjoy learning how the scrubber handles different phone formats; that personal interest helps me choose among accepted issues.
-3. I expect the hard part of claiming it to be following Path Review’s claim format and checking the current issue discussion before I post. The course allows students to share an issue, so another student’s claim would not block me. I will write the claim in Unit 2.
+1. I chose #53 because I like cybersecurity and I have used Python before. The bug is about hiding a phone number, so I understand why it matters. There are four tests I can run, and the change looks small enough for me to start with.
+2. My skill found that the repo is active, the issue has no assignee or open PR, and the bug has a clear way to reproduce it. It ranked #53 first. I also picked it because I want to practice debugging and see how the phone-number code works. The rubric cannot decide what I personally want to learn.
+3. I think claiming the issue will be straightforward once I follow the Unit 2 instructions. I will check the comments again before posting. Other students can work on the same Path Review issue, so their claims would not stop me.
 
 ---
 
