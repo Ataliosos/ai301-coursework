@@ -2,30 +2,43 @@
 
 Path: `beat-1-sandbox/unit-3/plan-and-implement.md`
 
-Record of your plan, the branch you built it on, and the evaluation runs that produced
-`eval-run.txt`. This file is graded at the path above; a copy kept anywhere else in the
-repository is not read.
-
-Complete every labelled field below. Each is graded on its own; content placed under the wrong
-label is not graded.
-
----
-
 ## Posted upstream
 
 **GitHub username**
 
-[Your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comment upstream is identified by this name, and it is
-the only thing that ties it to you. Several students may plan the same
-house issue, so this is what keeps their comments off your score and
-yours off theirs.]
+Ataliosos
 
 **Plan comment**
 
-[Link to the comment where you posted your plan on the issue. Use the comment's own
-permalink. **Then paste the text of that comment underneath the link** — the pasted text is
-what this field is graded on, so copy across what you actually posted.]
+https://github.com/codepath/pathreview-ai301-fa26-s3/issues/53#issuecomment-6026865498
+
+I reproduced the parenthesized phone-number problem on Windows
+with Python 3.13.0 at commit
+2f4e82f52efbcfcc57d65b3fa5348672163ca088.
+
+For `Call me at (555) 123-4567`, scrub() returned the input
+unchanged and detect() returned an empty list.
+
+My plan is to update the US phone-number pattern in
+safety/pii_scrubber.py. The current pattern does not allow
+the space after the closing parenthesis, and its leading
+word boundary prevents matching from the opening parenthesis.
+
+I will check complete redaction and detection positions,
+parenthesized numbers at the beginning and end of text,
+existing dashed, dotted, and +1 formats, and cases that
+could produce partial matches inside longer numbers or identifiers.
+
+I will update tests/unit/test_pii_scrubber.py and remove the
+four phone-specific xfail markers once those tests pass.
+
+The fifth xfailed test, test_mixed_pii_and_text, exposes a
+separate street-address false positive. I will leave that
+pattern and marker unchanged in this fix.
+
+I used ChatGPT to help organize this plan and draft the wording.
+I ran the reproduction commands myself. Implementation and
+after-fix testing have not started.
 
 ---
 
@@ -33,47 +46,174 @@ what this field is graded on, so copy across what you actually posted.]
 
 **Branch**
 
-[The name of the branch you built the change on, exactly as it appears in your fork. The
-naming shape is a type prefix, then the issue number, then a short description. **The issue
-number in the branch name must be the number of the issue you claimed** — a name carrying
-any other number does not satisfy this field.]
+`fix/53-parenthesized-phone-numbers`
+
+Fork: https://github.com/Ataliosos/pathreview-ai301-fa26-s3
+
+Implementation commit: `bf05700`
+
+I committed and pushed the phone-number fix and tests to my fork.
 
 **Evidence**
 
-[Your Unit 2 reproduction steps re-run against the built change: the before, then the
-after. Paste both, including the commands you ran and their output.]
+Before the change, I tested on Windows with Python 3.13.0 at commit
+`2f4e82f52efbcfcc57d65b3fa5348672163ca088`.
 
-## Eval iterations
+Command:
 
-Answer all four sections. Quote source text directly; paraphrase does not satisfy these
-fields.
+```powershell
+.\.venv\Scripts\python.exe -c "from safety.pii_scrubber import PIIScrubber; s = PIIScrubber(); text = 'Call me at (555) 123-4567'; print('Input:', text); print('Scrubbed:', s.scrub(text)); print('Detected:', s.detect(text))"
+```
 
-**Run history**
+Output:
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+```text
+Input: Call me at (555) 123-4567
+Scrubbed: Call me at (555) 123-4567
+2026-10-06 18:22:55 [info     ] pii_detected                   count=0 types=0
+Detected: []
+```
 
-**Package analysis**
+After changing the US phone-number pattern, I repeated the same
+input using the same environment.
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
-scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+Command:
 
-**Check rationale**
+```powershell
+.\.venv\Scripts\python.exe -c "from safety.pii_scrubber import PIIScrubber; s = PIIScrubber(); text = 'Call me at (555) 123-4567'; print('Scrubbed:', s.scrub(text)); print('Detected:', s.detect(text))"
+```
 
-[Quote one check from the `rubric.md` you uploaded to `tools/plan-check/`, exactly as it reads now.
-Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+Output:
 
-**Trade-offs**
+```text
+Scrubbed: Call me at [REDACTED]
+2026-10-06 18:51:42 [info     ] pii_detected                   count=1 types=1
+Detected: [{'type': 'phone_us', 'value': '(555) 123-4567', 'start': 11, 'end': 25}]
+```
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+The full phone number is now redacted. Detection returns its complete
+value and the correct position in the original text.
+
+I removed the four fixed phone tests' xfail markers, strengthened
+redaction and detection assertions, and added boundary checks.
+
+Focused test command:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/unit/test_pii_scrubber.py -q -rxX
+```
+
+Final summary:
+
+```text
+26 passed, 1 xfailed in 0.23s
+```
+
+The remaining expected failure is `test_mixed_pii_and_text`.
+I reproduced its separate street-address false positive before the
+phone fix and left that pattern and marker unchanged.
+
+Broader unit test command:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/unit -m unit -q -rxX --tb=short
+```
+
+Output summary:
+
+```text
+381 passed, 49 xfailed, 2 warnings in 36.89s
+```
+
+Code-quality commands and results:
+
+```text
+.\.venv\Scripts\python.exe -m ruff check .
+All checks passed!
+
+.\.venv\Scripts\python.exe -m black --check .
+All done! ✨ 🍰 ✨
+110 files would be left unchanged.
+
+.\.venv\Scripts\python.exe -m mypy api/ core/ ingestion/ rag/ agent/ safety/
+Success: no issues found in 76 source files
+
+git diff --check
+```
+
+`git diff --check` produced no output.
+
+I used ChatGPT for help with the implementation, test changes, and
+documentation. I ran the commands and reviewed the results myself.
 
 ---
 
-Related paths: `plan.md` and `eval-run.txt` in this directory; your skill's files in
-`tools/plan-check/`.
+## Eval iterations
+
+**Run history**
+
+I completed one full evaluation run after filling the installed
+rubric, evidence guide, and procedure. Earlier attempts stopped
+because I was in the wrong directory or the installed rubric was
+still empty; they produced no agreement score.
+
+The completed run reported:
+
+```text
+categories: clear-accept 7/7  scope-creep 4/4  thread-convention 2/2  unbuildable 3/3  wrong-cause 4/4
+agreement: 20/20 scored items  (bar: 18/20: PASS)
+```
+
+This is the final run saved in `eval-run.txt`.
+
+**Package analysis**
+
+For `pkg-01`, my rubric returned `reject`, and the gold label was
+also `reject`.
+
+The candidate diagnosis says:
+
+> The Python-version difference is a red herring; the tokenizer has
+> always been too strict about colon items.
+
+But the reproduction evidence says:
+
+> `--debug` on the failing run shows the error is raised by
+> argparse's `parse_args` while consuming positionals; the request
+> items are never handed to HTTPie's item parser.
+
+The same request items also work without the flag. The plan proposes
+changing the tokenizer even though the evidence shows the failure
+happens before the items reach it. That contradicts my Evidence-based
+diagnosis check and leaves the observed cause unresolved.
+
+**Check rationale**
+
+My Evidence-based diagnosis check reads:
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| Evidence-based diagnosis | The plan's stated cause compared with the issue context and reproduction steps and artifacts. | Pass if the diagnosis fits the reproduced behavior. A suspected cause may pass when identified as a hypothesis with a concrete way to verify it. Fail if the diagnosis ignores or contradicts relevant evidence. | required |
+
+I wrote it this way because a detailed plan can still target the
+wrong part of the code. I want the diagnosis checked against what
+actually happened. I also allow a suspected cause when the author
+explains how to test it, because investigation can be a useful first
+step without pretending the cause is already proven.
+
+**Trade-offs**
+
+This check allows a hypothesis with a concrete verification step.
+That means it can accept an investigation whose suspected cause
+later turns out to be wrong. I accept that risk because the plan
+makes the uncertainty visible and gives a way to resolve it.
+
+It still rejects `pkg-01`, where the diagnosis dismisses evidence
+that points to a different code path. My full evaluation matched all
+20 gold labels, but that result does not prove the rubric will judge
+every future plan correctly.
+
+---
+
+Related paths: `plan.md` and `eval-run.txt` in this directory;
+the skill files in `tools/plan-check/`.
