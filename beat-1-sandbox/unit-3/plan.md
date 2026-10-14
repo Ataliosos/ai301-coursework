@@ -80,5 +80,13 @@ I will check the full redacted output and detected values.
 
 ## Deviations
 
-Implementation has not started. I will record any changes
-to this plan after building and testing.
+Implementation is complete at commit
+bf05700009c034b7eb74ae2dfdd37ec63b60782e.
+
+The code follows the planned phone-pattern and test changes.
+The separate street-address false positive remains outside scope.
+
+During Unit 4 verification, the frontend suite timed out twice in
+ProfileForm's portfolio URL character-limit test. I have recorded
+this unresolved check result in the test evidence and PR draft.
+No frontend or dependency changes were made.
