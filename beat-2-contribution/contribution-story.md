@@ -1,130 +1,76 @@
-# Contribution: [Issue Title]
+# Contribution: Issue selection in progress
 
-Path: `beat-2-contribution/contribution-story.md`
-
-This file is Assignment 5, and it is graded at the path above; a copy kept anywhere else in
-the repository is not read. **Keep every section header below under its exact name** — the
-format criteria grade exactly that. Your course repo link is the whole submission: no tool
-files and no evidence uploads are part of Assignment 5.
-
-**Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
-**Pull Request:** [GitHub PR link, once opened]
-
-One repository, built across units 5 to 8, telling the whole story of your real
-contribution. Fill it as you work, not at the end — the sections below ask for evidence that
-is far easier to write down as it happens than to reconstruct in the last weekend.
-
-Contribution Number stays `[1]` unless you make more than one contribution this term; it
-just numbers them.
+**Contribution Number:** [1]  
+**Student:** Kevin Balbuena Montes  
+**GitHub Username:** Ataliosos  
+**Issue:** Pending — no course-eligible issue confirmed  
+**Pull Request:** Not opened
 
 ---
 
 ## Toolkit
 
-Every story section below, from Why I Chose This Issue through Pull
-Request, ends with a Toolkit block: which tool did that phase's work
-and how you used it, what it produced, what difficulties or
-shortcomings it presented, and what you changed or would change
-because of them. Together the blocks are the thread the rubric's
-Toolkit points read, and they are the raw material for your unit-9
-portfolio, so keep them current as you work rather than
-reconstructing them later.
+**Unit 5: Ranking and screening Python issues — November 10, 2026**
 
-A Toolkit block looks like this (copy it into each story section and
-fill it there):
+I configured issue-scout to search for small Python bugs that I could reproduce locally. My first search returned 100 results, but the scout stopped because I hadn’t added ranking rules. I added rules to skip assigned issues, prioritize titles about security or input validation, and sort by comment count with recent activity as a tie-breaker. The scout then graded five issues and accepted one; grading my CodePath picks separately showed me why I also needed to check issue comments and linked pull requests.
 
-```text
-**Toolkit**
+**Unit 6: Not completed**
 
-- Tool: [which tool did this phase's work, and how you used it]
-- What it produced: [described in a sentence or a short excerpt]
-- Difficulties: [what fought you or fell short, or "none met"]
-- What changed: [the patch, revision, or workaround, what you would
-  update, or "nothing"]
-```
+I did not reach the voice guard or repository memory work for a selected issue.
 
-This section also keeps one short dated entry per week of tool work,
-starting below: what you built or changed that week, what broke, and
-what you changed because of it. The blocks tell the story where it
-happened; these entries are the toolkit's own timeline.
+**Unit 7: Not completed**
 
-All four entries are graded. Keep every heading below, and fill each
-one in the week it belongs to.
+I did not reach the ship gate, repository checks, or implementation on a contribution branch.
 
-**Unit 5: [one line on the tool work]**
+**Unit 8: Not completed**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
-
-**Unit 6: [one line on the tool work]**
-
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
-
-**Unit 7: [one line on the tool work]**
-
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
-
-**Unit 8: [one line on the tool work]**
-
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+I did not run the PR monitor or draft a follow-up because I had not opened a pull request.
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I used the CodePath Issue Selection site to shortlist issues and graded three of them with issue-scout. I passed on AetherSDR #6987, a Windows encoding bug that fit my Python and Windows experience, because someone had recently claimed it. I passed on Snapchat GiGL #299 because the thread questioned whether the bug still existed and did not give me a clear way to reproduce it. OWASP Nest #3483 matched my cybersecurity interests, but the scout found that several contributors had already asked to work on it and one had prepared a fix. The repository also requires contributors to be assigned before opening a pull request.
+
+A broader search ranked [json-rpc #135](https://github.com/pavlov99/json-rpc/issues/135) first and gave it an accept verdict. It looked manageable because the report identified two Python files and a specific behavior I could test locally: setting an error on a response should remove its previous result. I wanted to practice writing a regression test that fails before the fix and passes afterward. I hadn’t confirmed that the issue was eligible for the course, so I left it as a candidate. The scout helped me find promising work, but its verdict did not confirm course eligibility, and a time limit on claim comments alone could miss a repository’s assignment requirement.
+
+Claim: claim pending — November 11, 2026.
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: I used issue-scout with my search strategy and rubric to rank GitHub issues and grade the issues I shortlisted from CodePath.
+- What it produced: It rejected three CodePath picks and ranked json-rpc #135 first in a broader search.
+- Difficulties: An empty Assignees field did not tell me whether someone was already working on an issue. OWASP Nest #3483 had no assignee, but the thread contained several claims and a link to a PR.
+- What changed: I added ranking rules so the scan could finish. I would update my availability check to flag projects that require maintainer assignment before a PR, even when older claim comments fall outside the rubric’s time window.
 
 ---
 
 ## Understanding the Issue
 
+The details below describe the report for json-rpc #135, a candidate I had not confirmed for the course.
+
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+The report says that when a JSON-RPC response already has a result, setting an error can leave the old result in the response.
 
 **Expected Behavior**
 
-[What should happen?]
+After setting the error, the response should contain the `error` field and no longer contain the previous `result` field.
 
 **Current Behavior**
 
-[What actually happens?]
+According to the issue and the scout’s code inspection, the error setters try to remove a key named `value`. The existing field is named `result`, so the old result can remain alongside the error. I did not reproduce this locally.
 
 **Affected Components**
 
-[Which parts of the codebase are involved?]
+The report and the scout identified the response error setters in `jsonrpc/jsonrpc1.py` and `jsonrpc/jsonrpc2.py`.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used issue-scout to compare the GitHub issue report with the code it inspected.
+- What it produced: It identified the two Python files and the mismatch between `value` and `result`.
+- Difficulties: The code inspection gave me a starting point, but I did not confirm the behavior by running the project locally.
+- What changed: I recorded the reported behavior separately from what I had personally verified.
 
 ---
 
@@ -132,31 +78,24 @@ and add the link the moment your claim lands.]
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+I used Windows, GitHub CLI, and Claude Code for issue screening. I did not clone or set up the candidate repository locally.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+I did not run a reproduction. My proposed first check would be to create a response with a `result`, set its `error`, and inspect whether both fields remain.
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+- **Commit showing reproduction:** none
+- **Screenshots/logs:** No local reproduction output.
+- **My findings:** The scout identified a likely cause in the source code. The runtime behavior remains unverified on my machine.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used issue-scout to identify a possible reproduction check. I did not run repro-check.
+- What it produced: A starting point for a focused test of the response fields.
+- Difficulties: I had not confirmed an eligible issue or set up the project locally.
+- What changed: No reproduction steps were run. I kept the proposed check separate from the evidence.
 
 ---
 
@@ -164,93 +103,79 @@ and how you solved them, or that none came up.]
 
 **Analysis**
 
-[Your analysis of the root cause: what is causing the issue, traced
-to the files and functions involved.]
+The candidate issue points to the response error setters in `jsonrpc/jsonrpc1.py` and `jsonrpc/jsonrpc2.py`. The suspected cause is that the setters remove `value` when the old response field is `result`. This is based on the issue report and the scout’s source inspection.
 
 **Proposed Solution**
 
-[High-level description of your fix approach, and what you are
-deliberately NOT changing.]
+If the issue is confirmed for the course and the behavior reproduces locally, update the error setters to remove `result` when an error is set. Keep the change limited to the two setters and their tests.
 
 **Implementation Plan**
 
-1. [Modify file X to do Y]
-2. [Add or change Z]
-3. [Update tests]
+1. Add a regression test that sets a result, then an error, and checks that the old result is gone.
+2. Confirm that the test fails on the original code, then update the relevant error setters in `jsonrpc/jsonrpc1.py` and `jsonrpc/jsonrpc2.py`.
+3. Rerun the regression test and the repository’s documented checks.
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+This is a proposed plan. I did not implement or test it.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used the issue-scout readout to outline a possible fix. I did not run plan-check.
+- What it produced: A proposed change limited to two error setters and a regression test.
+- Difficulties: I did not verify the failure locally or confirm that I could use the issue for the course.
+- What changed: No code changes were made.
 
 ---
 
 ## Testing Strategy
 
-[What observable checks prove the fix: your reproduction steps re-run
-against the built change (before and after), and the repo's own test
-suite or checks with the outcome shown. "Tests pass" with nothing
-observable named is not a strategy.]
+If I proceed with json-rpc #135, I would run the same regression test before and after the fix. Before the fix, I would check whether setting `error` leaves the old `result` in the response. After the fix, I would check that `error` remains present and `result` is absent. I would also run the repository’s documented test suite and record the commands and output. I did not run either check.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used the issue-scout readout to identify what a regression test should verify.
+- What it produced: A specific before-and-after check for the `result` and `error` fields.
+- Difficulties: I had no local test output.
+- What changed: I recorded the expected observations as a test plan rather than reporting a passing result.
 
 ---
 
 ## Implementation Notes
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
+**November 10, 2026**
 
-**[Date]**
+My first search returned 100 results but stopped before grading because my strategy lacked ranking rules. I added the rules, resumed the scan, and saved the results. I also screened CodePath candidates and documented why I skipped issues with recent claims or unclear reproduction steps.
 
-[Entry]
+**November 11, 2026**
 
-**[Date]**
-
-[Entry]
+The broader scan ranked json-rpc #135 first. I kept it as a candidate because I had not confirmed its course eligibility. I did not claim it, create a contribution branch, or make a code change.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: I used issue-scout and kept notes in `scan-notes.md` and `scan-output.md`.
+- What it produced: A dated record of the ranking changes, candidate verdicts, and reasons I passed on issues.
+- Difficulties: Several issues looked workable until I checked the comments and related pull requests.
+- What changed: I began checking those signs of existing work before committing to a candidate.
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when opened]
+**PR Link:** Not opened.
 
-**PR Description:** [what the PR says; much of the content above
-adapts into it]
+**PR Description:** None. I did not submit a change.
 
 **Maintainer Feedback:**
 
-- [Date]: [feedback received, or "none yet"; silence is a normal
-  state and costs you nothing]
-- [Date]: [how you addressed it]
+- November 11, 2026: No maintainer feedback. I had not posted a claim or opened a PR.
 
-**Status:** [Awaiting review / Iterating / Merged / Closed. The
-status is a fact you record, never a grade: the PR is graded as
-opened.]
+**Status:** Not opened.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: No PR tool used.
+- What it produced: No pull request or review output.
+- Difficulties: I had not confirmed a course-eligible issue or built a fix.
+- What changed: Nothing in the upstream repository.
 
 ---
 
@@ -258,25 +183,20 @@ opened.]
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+I practiced using GitHub CLI and issue-scout to filter and rank issues. I also practiced turning a bug report into a specific test: set a result, set an error, and check which fields remain in the response.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+My first scan stopped because I hadn’t supplied ranking rules. I added them and resumed the scan. OWASP Nest #3483 was the clearest example of why screening takes more than checking the Assignees field: the issue had no assignee, but several people had asked for it and a contributor had already prepared a PR.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+I would check the course list, the repository’s contribution rules, the issue thread, and linked PRs earlier. Once I have an eligible, available issue, I would run the smallest local reproduction before drafting a fix.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
-
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- [CodePath Issue Selection site](https://open-source-issue-tracker.onrender.com/) — where I shortlisted issues for the assignment.
+- [OWASP Nest #3483](https://github.com/OWASP/Nest/issues/3483) — an example of why I need to check the thread and related PRs even when an issue has no assignee.
+- [json-rpc #135](https://github.com/pavlov99/json-rpc/issues/135) — the candidate report I used to outline a possible regression test.
